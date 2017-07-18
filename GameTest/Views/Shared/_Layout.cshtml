@@ -1,0 +1,237 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN CSS -->
+    @System.Web.Optimization.Styles.Render("~/bundles/Content/css")
+    <!-- END CSS -->
+    
+</head>
+<!-- END HEAD -->
+
+<body class="page-container-bg-solid">
+    <!-- BEGIN MODAL CREATE TEAM -->
+    <div id="CreateTeam" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h3 class="modal-title text-center bold uppercase">Criar um time</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input id="TxtNameTeam" type="text" placeholder="Digite um nome para o seu time" maxlength="50" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-lg bold">Fechar</button>
+                    <button type="button" id="BtnCreateTeam" class="btn btn-primary bold btn-lg">Criar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN MODAL CREATE PLAYERS -->
+    <div id="AddPlayer" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h3 class="modal-title text-center uppercase bold">Adicionar um jogador</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Nome: </label><label class="text-danger"></label>
+                                <input id="TxtNamePlayer" type="text" placeholder="Digite o nome do jogador" maxlength="50" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Escolha um time: </label><label class="text-danger">*</label>
+                                <select id="SelTeamList" class="form-control">
+                                    <option value="0">Escolha um time</option>
+                                    @Html.Raw(ViewBag.SelectTeamHtml)
+                                </select>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-lg bold">Fechar</button>
+                    <button type="button" id="BtnAddPlayer" class="btn btn-primary bold btn-lg">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN MODAL CREATE TOURNAMENT -->
+    <div id="tournament" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h3 class="modal-title text-center uppercase bold">Criar um torneio</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Nome do torneio: </label><label class="text-danger"></label><label class="text-danger">*</label>
+                                <input id="TxtTournament" type="text" placeholder="Digite o nome do torneio" maxlength="50" class="form-control" />
+                            </div>
+                            @*<div class="form-group">
+                                <label class="control-label">Qtd de luta: </label><label class="text-danger"></label><label class="text-danger">*</label>
+                                <input id="TxtQtdRounds" type="number" placeholder="Digite o nome do jogador" maxlength="50" class="form-control" />
+                            </div>*@
+                            <div class="form-group">
+                                <label class="control-label bold">Time1 que vai lutar com time2: </label><label class="text-danger">*</label>
+                                <select id="SelTeam1List" class="form-control">
+                                    <option value="0">Escolha um time</option>
+                                    @Html.Raw(ViewBag.SelectTeam1Html)
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label bold">Time2 que vai lutar com time1: </label><label class="text-danger">*</label>
+                                <select id="SelTeam2List" class="form-control">
+                                    <option value="0">Escolha um time</option>
+                                    @Html.Raw(ViewBag.SelectTeam2Html)
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-lg bold">Fechar</button>
+                    <button type="button" id="BtnCreateTournament" class="btn btn-primary bold btn-lg">Criar torneio</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  END MODAL CREATE TEAM-->
+    <div class="page-wrapper">
+        <div class="page-wrapper-row">
+            <div class="page-wrapper-top">
+                <!-- BEGIN HEADER -->
+                <div class="page-header">
+                    <!-- BEGIN HEADER TOP -->
+                    <div class="page-header-top">
+                        <div class="container">
+                            <!-- BEGIN LOGO -->
+                            <div class="page-logo">
+                                <a href="/">                                   
+                                    <img alt="logo" src="~/Content/img/logo.png" />
+                                </a>
+                            </div>
+                            <!-- END LOGO -->
+
+                        </div>
+                    </div>
+                    <!-- END HEADER TOP -->
+                    <!-- BEGIN HEADER MENU -->
+                    <div class="page-header-menu">
+                        <div class="container">
+                            <div class="hor-menu">
+                                <ul class="nav navbar-nav">
+                                    <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="#" class="uppercase bold">
+                                            <i class="fa fa-users" aria-hidden="true"></i> Time
+                                        </a>
+                                        <ul class="dropdown-menu pull-left">
+                                            <li class="menu-dropdown classic-menu-dropdown">
+                                                <a data-toggle="modal" href="#CreateTeam" class="nav-link nav-toggle ">
+                                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i> Criar um novo time
+                                                </a>
+                                            </li>
+                                            <li class="menu-dropdown classic-menu-dropdown">
+                                                <a href="/team" class="nav-link nav-toggle ">
+                                                    <i class="fa fa-list"></i> Listar times
+                                                </a>
+                                            </li>
+                                            <li class="menu-dropdown classic-menu-dropdown">
+                                                <a href="/players" class="nav-link nav-toggle ">
+                                                    <i class="fa fa-list"></i> Listar de jogadores
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-dropdown classic-menu-dropdown">
+                                        <a href="#" class="uppercase bold">
+                                            <i class="fa fa-hand-scissors-o" aria-hidden="true"></i> Torneio
+                                        </a>
+                                        <ul class="dropdown-menu pull-left">
+                                            <li class="menu-dropdown classic-menu-dropdown">
+                                                <a href="#tournament" data-toggle="modal" class="nav-link nav-toggle ">
+                                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i> Criar um novo torneio
+                                                </a>
+                                            </li>
+                                           
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- END MEGA MENU -->
+                        </div>
+                    </div>
+                    <!-- END HEADER MENU -->
+                </div>
+                <!-- END HEADER -->
+            </div>
+        </div>
+        <div class="page-wrapper-row full-height">
+            <div class="page-wrapper-middle">
+                <!-- BEGIN CONTAINER -->
+                <div class="page-container">
+                    <!-- BEGIN CONTENT -->
+                    <div class="page-content-wrapper">
+                        <div class="page-content">
+                            <div class="container">
+                                <!-- BEGIN PAGE CONTENT INNER -->
+                                @RenderBody()
+                                <!-- END PAGE CONTENT INNER -->
+                            </div>
+                        </div>
+                        <!-- END PAGE CONTENT BODY -->
+                        <!-- END CONTENT BODY -->
+                    </div>
+                    <!-- END CONTENT -->
+                </div>
+                <!-- END CONTAINER -->
+            </div>
+        </div>
+        <div class="page-wrapper-row">
+            <div class="page-wrapper-bottom">
+                <!-- BEGIN FOOTER -->
+                <div class="page-footer">
+                    <div class="container text-center uppercase bold">
+                        2017 &copy; desafio nibo
+
+                    </div>
+                </div>
+
+                <!-- END FOOTER -->
+            </div>
+        </div>
+    </div>
+    <!-- BEGIN SCRIPTS -->
+    @System.Web.Optimization.Scripts.Render("~/bundles/Content/scripts")
+    <!-- END  SCRIPTS -->
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<div class="page-content-inner">
+    <div class="mt-content-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption caption-md">
+                            <i class="icon-bar-chart font-dark hide"></i>
+                            <span class="caption-subject font-blue uppercase bold">Iniciar Luta</span>
+                        </div>
+                        <div class="actions">
+                            <div class="form-group">
+                                <label class="control-label bold">Escolha um torneio</label>
+                                <select id="SelTournamentList" class="form-control">
+                                    <option value="0">Escolha um torneio</option>
+                                    @Html.Raw(ViewBag.ListTournamentHtml)
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body text-center">
+                        <a id="BtnPlay" href="#"><img src="~/Content/img/button-300x176.png" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption caption-md">
+                            <i class="icon-bar-chart font-dark hide"></i>
+                            <span class="caption-subject font-red bold uppercase">Resumo da partida</span>
+                        </div>
+                        <div class="actions">                           
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row number-stats margin-bottom-30">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="stat-left">
+                                    <div class="stat-number">
+                                        <div id="team1" class="title"></div>
+                                        <div id="points1" class="number"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="stat-right">
+                                    <div class="stat-number">
+                                        <div id="team2" class="title"></div>
+                                        <div id="points2" class=" number"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center margin-bottom-5">
+                            <div id="winner_team" class="col-md-12">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

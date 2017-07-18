@@ -1,0 +1,7 @@
+C:\Users\joao\documents\visual studio 2013\Projects\GameTest\GameTest.Model\bin\Debug\GameTest.Model.dll
+C:\Users\joao\documents\visual studio 2013\Projects\GameTest\GameTest.Model\bin\Debug\GameTest.Model.pdb
+C:\Users\joao\documents\visual studio 2013\Projects\GameTest\GameTest.Model\bin\Debug\GameTest.Data.dll
+C:\Users\joao\documents\visual studio 2013\Projects\GameTest\GameTest.Model\bin\Debug\GameTest.Data.pdb
+C:\Users\joao\documents\visual studio 2013\Projects\GameTest\GameTest.Model\obj\Debug\GameTest.Model.csprojResolveAssemblyReference.cache
+C:\Users\joao\documents\visual studio 2013\Projects\GameTest\GameTest.Model\obj\Debug\GameTest.Model.dll
+C:\Users\joao\documents\visual studio 2013\Projects\GameTest\GameTest.Model\obj\Debug\GameTest.Model.pdb

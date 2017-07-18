@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Team";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="portlet light ">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-social-dribbble font-dark hide"></i>
+            <span class="caption-subject font-dark bold uppercase">TIMES</span>
+        </div>
+        <div class="actions">
+            <a data-toggle="modal" href="#AddPlayer" class="btn btn-lg btn-circle btn-primary">
+                <i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Jogador
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <table data-toggle="table" data-height="500">
+            <thead>
+                <tr>
+                    <th>Nome do time</th>
+                    @*<th>QTD de lutas</th>
+                    <th>QTD de jogadores</th>
+                    <th>QTD de vitórias</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @Html.Raw(ViewBag.ListTeamHtml)
+            </tbody>
+        </table>
+    </div>
+</div>
