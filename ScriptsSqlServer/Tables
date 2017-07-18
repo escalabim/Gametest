@@ -1,0 +1,94 @@
+USE [DB_A0BBCA_desafionibo]
+GO
+/****** Object:  Table [dbo].[fight]    Script Date: 18/07/2017 00:33:28 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[fight](
+	[fight_id] [int] IDENTITY(1,1) NOT NULL,
+	[tournament_id] [int] NOT NULL,
+	[team1_id_versus] [int] NOT NULL,
+	[team2_id_versus] [int] NOT NULL,
+	[team1_points] [int] NULL,
+	[team2_points] [int] NULL,
+ CONSTRAINT [PK_fight] PRIMARY KEY CLUSTERED 
+(
+	[fight_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[logs]    Script Date: 18/07/2017 00:33:29 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[logs](
+	[logs_id] [int] IDENTITY(1,1) NOT NULL,
+	[error] [nvarchar](max) NOT NULL,
+	[layer] [varchar](50) NOT NULL,
+	[date] [datetime] NOT NULL,
+ CONSTRAINT [PK_logs] PRIMARY KEY CLUSTERED 
+(
+	[logs_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[players]    Script Date: 18/07/2017 00:33:29 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[players](
+	[players_id] [int] IDENTITY(1,1) NOT NULL,
+	[team_id] [int] NOT NULL,
+	[name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_players] PRIMARY KEY CLUSTERED 
+(
+	[players_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[team]    Script Date: 18/07/2017 00:33:29 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[team](
+	[team_id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](50) NOT NULL,
+	[date] [datetime] NOT NULL,
+ CONSTRAINT [PK_team] PRIMARY KEY CLUSTERED 
+(
+	[team_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tournament]    Script Date: 18/07/2017 00:33:29 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tournament](
+	[tournament_id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](50) NOT NULL,
+	[date] [datetime] NOT NULL,
+	[rounds] [int] NOT NULL,
+	[winner_team] [int] NULL,
+	[idcontrol] [varchar](10) NOT NULL,
+ CONSTRAINT [PK_tournament] PRIMARY KEY CLUSTERED 
+(
+	[tournament_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[fight]  WITH CHECK ADD  CONSTRAINT [FK_fight_tournament] FOREIGN KEY([tournament_id])
+REFERENCES [dbo].[tournament] ([tournament_id])
+GO
+ALTER TABLE [dbo].[fight] CHECK CONSTRAINT [FK_fight_tournament]
+GO
+ALTER TABLE [dbo].[players]  WITH CHECK ADD  CONSTRAINT [FK_players_team] FOREIGN KEY([team_id])
+REFERENCES [dbo].[team] ([team_id])
+GO
+ALTER TABLE [dbo].[players] CHECK CONSTRAINT [FK_players_team]
+GO
