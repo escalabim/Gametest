@@ -1,0 +1,197 @@
+USE [DB_A0BBCA_desafionibo]
+GO
+/****** Object:  StoredProcedure [dbo].[API_AddPlayersTeam]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[API_AddPlayersTeam]	
+@team_id int,
+@name   nvarchar(50)
+
+AS
+BEGIN
+INSERT INTO players (team_id, name)
+            VALUES  (@team_id, @name)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[API_CreateTeam]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[API_CreateTeam]
+
+@name nvarchar(50)
+AS
+BEGIN
+INSERT INTO team   (name, date) 
+            VALUES (@name, getdate())
+END
+GO
+/****** Object:  StoredProcedure [dbo].[API_CreateTournament]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[API_CreateTournament]
+@name  nvarchar(50),
+@team1 nvarchar(50),
+@team2 nvarchar(50),
+@rounds int
+	
+AS
+BEGIN
+DECLARE @tournament_id  int;
+DECLARE @idcontrol      varchar(255);
+DECLARE @code           uniqueidentifier;
+
+SET     @code      =(SELECT CONVERT(VARCHAR(255), newid()));
+SET     @idcontrol =(SELECT LOWER(UPPER(SUBSTRING(REPLACE( @code,'-',''),0,8))));  
+
+  BEGIN TRY
+   BEGIN TRAN  
+    --======================================================================================================================================================================================================================== 
+	-- INSERT THE DATA IN THE TABLE TOURNAMENT
+	--========================================================================================================================================================================================================================
+	  INSERT INTO tournament  (name, date, rounds, idcontrol) 
+	         VALUES           (@name, GETDATE(), @rounds, @idcontrol) 
+	--======================================================================================================================================================================================================================== 
+	-- INSERT THE DATA IN THE TABLE FIGHT
+	--========================================================================================================================================================================================================================
+	  SET @tournament_id= (SELECT tournament_id FROM tournament WHERE idcontrol=@idcontrol);
+
+	  INSERT INTO fight     (tournament_id,team1_id_versus, team2_id_versus) 
+	         VALUES         (@tournament_id, @team1, @team2) 
+
+    COMMIT TRAN
+  END TRY
+   BEGIN CATCH
+    ROLLBACK TRAN
+	 SELECT ERROR_MESSAGE() AS ERROR
+	END CATCH
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[API_GetListPlayers]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[API_GetListPlayers]
+@team_id int
+AS
+BEGIN
+SELECT name from players where team_id= @team_id
+END
+GO
+/****** Object:  StoredProcedure [dbo].[API_GetListTeam]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[API_GetListTeam]	
+AS
+BEGIN
+SELECT * FROM team 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[API_GetListTournament]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create PROCEDURE [dbo].[API_GetListTournament]	
+AS
+BEGIN
+SELECT * FROM tournament
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CheckTournament]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[CheckTournament]
+@tournament_id int
+AS
+BEGIN
+	SELECT top(1) f.team1_id_versus, f.team2_id_versus, t.tournament_id
+	FROM tournament t JOIN fight f 
+	ON (f.tournament_id=@tournament_id) and (t.tournament_id= f.tournament_id)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetNameTeam]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetNameTeam]
+@team_id INT
+AS
+BEGIN
+	SELECT name FROM team WHERE team_id=@team_id
+END
+GO
+/****** Object:  StoredProcedure [dbo].[InsertResults]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[InsertResults]
+@tournament_id    INT,
+@team1_id_versus  INT,
+@team2_id_versus  INT,
+@team1_points     INT,
+@team2_points     INT,
+@winner_team      INT
+
+AS
+BEGIN
+ BEGIN TRY
+  BEGIN TRAN  
+    --======================================================================================================================================================================================================================== 
+	-- INSERT THE DATA IN THE TABLE FIGHT
+	--========================================================================================================================================================================================================================
+
+           INSERT INTO    fight (tournament_id, team1_id_versus, team2_id_versus, team1_points, team2_points)
+                  VALUES        (@tournament_id, @team1_id_versus, @team2_id_versus, @team1_points, @team2_points)
+    --======================================================================================================================================================================================================================== 
+	-- UPDATE winner team THE DATA IN THE TABLE tournament
+	--========================================================================================================================================================================================================================
+		  
+		   UPDATE tournament 
+		   SET winner_team=@winner_team 
+		   WHERE tournament_id=@tournament_id
+           
+  COMMIT TRAN
+ END TRY
+   BEGIN CATCH
+    ROLLBACK TRAN
+	 SELECT ERROR_MESSAGE() AS ERROR
+	END CATCH
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[RegisterLogs]    Script Date: 18/07/2017 00:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE  [dbo].[RegisterLogs]
+@error nvarchar(max),
+@layer varchar(50)
+
+AS
+BEGIN
+	INSERT INTO logs (error, date, layer) VALUES (@error, getdate(), @layer )
+END
+GO
